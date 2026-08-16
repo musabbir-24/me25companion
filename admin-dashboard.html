@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CR Admin Control Center | ME Portal '25</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070a11',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS for Hiding Scrollbars -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 min-h-screen font-sans antialiased selection:bg-rose-500/30 selection:text-rose-200 relative overflow-x-hidden">
+
+    <!-- AMBIENT GLASS GLOW BACKGROUND ORBS -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+    <div class="fixed top-1/3 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 left-10 w-96 h-96 bg-sky-500/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+
+
+    <!-- ========================================== -->
+    <!-- AUTH GUARD / ADMIN LOGIN OVERLAY           -->
+    <!-- ========================================== -->
+    <div id="admin-auth-overlay" class="fixed inset-0 z-50 bg-slate-950/90 backdrop-blur-2xl flex items-center justify-center p-4">
+        <div class="bg-slate-900/90 border border-white/10 w-full max-w-md rounded-3xl p-6 sm:p-8 shadow-2xl space-y-6 text-center relative overflow-hidden">
+            
+            <!-- Ambient Glow inside modal -->
+            <div class="absolute -top-10 -left-10 w-40 h-40 bg-rose-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+            <div class="space-y-2">
+                <div class="inline-flex p-3 bg-rose-500/10 border border-rose-500/20 text-rose-400 rounded-2xl mb-2">
+                    <i data-lucide="lock" class="w-6 h-6"></i>
+                </div>
+                <h2 class="text-xl font-black text-white tracking-tight">CR Portal Authentication</h2>
+                <p class="text-xs text-slate-400">Please authenticate with your Class Representative credentials to access the studio.</p>
+            </div>
+
+            <!-- Login Form -->
+            <form id="admin-login-form" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Email Address</label>
+                    <input type="email" id="admin-email" required placeholder="cr@dept.ruet.ac.bd" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition" />
+                </div>
+
+                <div>
+                    <label class="block text-xs font-semibold text-slate-300 mb-1.5">Password</label>
+                    <input type="password" id="admin-password" required placeholder="••••••••" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition" />
+                </div>
+
+                <div id="login-error-msg" class="hidden text-[11px] font-mono text-rose-400 bg-rose-500/10 border border-rose-500/20 p-2.5 rounded-xl">
+                    Invalid credentials. Please try again.
+                </div>
+
+                <button type="submit" id="login-submit-btn" class="w-full py-3.5 bg-rose-500 hover:bg-rose-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-rose-500/25 transition flex items-center justify-center space-x-2">
+                    <i data-lucide="key-round" class="w-4 h-4"></i>
+                    <span>Unlock Control Center</span>
+                </button>
+            </form>
+
+            <div class="pt-2 border-t border-white/10">
+                <a href="index.html" class="inline-flex items-center space-x-1 text-xs text-slate-400 hover:text-slate-200 transition">
+                    <i data-lucide="arrow-left" class="w-3.5 h-3.5"></i>
+                    <span>Back to Student Portal</span>
+                </a>
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 1. GLASS NAVIGATION BAR                   -->
+    <!-- ========================================== -->
+    <!-- Single Navbar Anchor -->
+    <div id="navbar-container"></div>
+
+    <!-- Load Navbar Script -->
+    <script src="navbar.js"></script>
+
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN ADMIN CONTAINER                    -->
+    <!-- ========================================== -->
+    <main class="max-w-6xl mx-auto px-4 py-6 space-y-8">
+
+        <!-- GLASS HERO BANNER WITH LOGOUT BAR -->
+        <section class="relative overflow-hidden rounded-3xl bg-slate-900/40 backdrop-blur-2xl p-6 sm:p-8 border border-white/10 shadow-2xl flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6">
+            <div class="relative z-10 space-y-3 max-w-2xl">
+                <div class="inline-flex items-center space-x-2 text-[11px] font-bold text-rose-400 bg-rose-500/10 border border-rose-500/20 px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                    <i data-lucide="shield-check" class="w-3.5 h-3.5"></i>
+                    <span>CR Management Console</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight leading-tight">Academic Publishing Studio</h2>
+                <p class="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    Create, edit, or manage CT schedules, assignments, lecture notes, lab manuals, and class gallery photos across the portal.
+                </p>
+            </div>
+
+            <!-- Active Admin Controls -->
+            <div class="relative z-10 shrink-0 bg-slate-950/60 border border-white/10 rounded-2xl p-4 space-y-2.5 text-right w-full sm:w-auto">
+                <div class="text-xs font-semibold text-slate-300 flex items-center justify-end space-x-2">
+                    <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    <span id="cr-user-name" class="font-mono text-emerald-300">Authenticated CR</span>
+                </div>
+                <button id="admin-logout-btn" class="w-full sm:w-auto px-4 py-2 bg-slate-800 hover:bg-rose-500/20 text-slate-300 hover:text-rose-300 border border-white/10 hover:border-rose-500/30 rounded-xl text-xs font-bold transition flex items-center justify-center space-x-2">
+                    <i data-lucide="log-out" class="w-3.5 h-3.5"></i>
+                    <span>Sign Out</span>
+                </button>
+            </div>
+        </section>
+
+
+        <!-- PUBLISHING STUDIO & POST MANAGEMENT WORKSPACE -->
+        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+
+            <!-- LEFT COLUMN: UNIFIED POSTING FORM (7 Cols) -->
+            <div class="lg:col-span-7 space-y-6">
+
+                <!-- MAIN FORM CARD -->
+                <div class="bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 sm:p-8 space-y-6 shadow-2xl relative">
+                    
+                    <div class="border-b border-white/10 pb-4 flex items-center justify-between">
+                        <div>
+                            <h2 class="text-lg font-black text-white flex items-center gap-2">
+                                <i data-lucide="plus-circle" class="w-5 h-5 text-rose-400"></i>
+                                New Academic Entry
+                            </h2>
+                            <p class="text-xs text-slate-400 mt-0.5">Publish resources directly to section endpoints.</p>
+                        </div>
+                        <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-1 rounded-lg">Multi-Module</span>
+                    </div>
+
+                    <!-- UNIFIED POST FORM -->
+                    <form id="admin-post-form" class="space-y-5">
+
+                        <!-- Row 1: CATEGORY SELECTOR -->
+                        <div class="p-4 bg-slate-950/80 rounded-2xl border border-white/10 space-y-2">
+                            <label class="block text-xs font-bold text-rose-300 uppercase tracking-wider flex items-center gap-1.5">
+                                <i data-lucide="layers" class="w-4 h-4 text-rose-400"></i>
+                                Select Target Portal / Category *
+                            </label>
+                            <select id="post-category" required class="w-full bg-slate-900 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 font-semibold focus:outline-none focus:border-rose-500 transition cursor-pointer">
+                                <option value="ct">📌 Class Test (CT Schedule & Slides)</option>
+                                <option value="assignment">📋 Assignment (Task & Submission Due Date)</option>
+                                <option value="notes">📚 Class Notes (Handwritten/PDF Handouts)</option>
+                                <option value="lab">🧪 Lab Report (Manuals & Cover Pages)</option>
+                                <option value="gallery">🖼️ Class Gallery (Event & Memory Photos)</option>
+                            </select>
+                        </div>
+
+                        <!-- Row 2: Subject Code (Hidden for Gallery) & Title -->
+                        <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                            <div id="subject-group">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Subject Code *</label>
+                                <input type="text" id="post-subject" placeholder="e.g. ME 2101" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition font-mono uppercase" />
+                            </div>
+                            <div class="sm:col-span-2">
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Title / Header *</label>
+                                <input type="text" id="post-title" required placeholder="e.g. Fluid Statics (CT-02) or Assignment 1" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition" />
+                            </div>
+                        </div>
+
+                        <!-- Row 3: Due Date & Time -->
+                        <div id="dueDate-group" class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Exam / Due Date</label>
+                                <input type="date" id="post-date" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 focus:outline-none focus:border-rose-500/50 transition" />
+                            </div>
+                            <div>
+                                <label class="block text-xs font-semibold text-slate-300 mb-1.5">Time / Submission Deadline</label>
+                                <input type="text" id="post-time" placeholder="e.g. 10:00 AM or Before 11:59 PM" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition" />
+                            </div>
+                        </div>
+
+                        <!-- Row 4: Venue Field (For CTs) -->
+                        <div id="venue-group">
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Venue / Exam Location</label>
+                            <input type="text" id="post-venue" placeholder="e.g. ME Room 302 or Seminar Hall" class="w-full bg-slate-950/80 border border-white/10 rounded-xl px-3.5 py-2.5 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition" />
+                        </div>
+
+                        <!-- Row 5: Detailed Description / Syllabus -->
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 mb-1.5">Description / Syllabus Breakdown / Instructions</label>
+                            <textarea id="post-desc" rows="3" placeholder="Provide syllabus details, assignment rules, or notes description..." class="w-full bg-slate-950/80 border border-white/10 rounded-xl p-3 text-xs text-slate-100 placeholder-slate-600 focus:outline-none focus:border-rose-500/50 transition resize-none"></textarea>
+                        </div>
+
+                        <!-- Row 6: MULTI-FILE & IMAGE ATTACHMENT SECTION -->
+                        <div class="p-4 bg-slate-950/60 rounded-2xl border border-rose-500/20 space-y-3">
+                            <div class="flex items-center justify-between">
+                                <label class="block text-xs font-bold text-rose-300 flex items-center gap-1.5">
+                                    <i data-lucide="paperclip" class="w-4 h-4 text-rose-400"></i>
+                                    Attach Files / Slides / Handouts / Photos
+                                </label>
+                                <span class="text-[10px] text-slate-400 font-mono">Multi-selection supported</span>
+                            </div>
+
+                            <!-- File Input -->
+                            <!-- CORRECT FIELD -->
+                            <input 
+                            type="text" 
+                            id="post-drive-url" 
+                            placeholder="https://drive.google.com/file/d/..." 
+                            class="w-full bg-slate-900 border border-white/10 rounded-xl px-4 py-2.5 text-xs text-white"
+                            />
+                            
+                            <p class="text-[10px] text-slate-500 leading-relaxed">
+                                <i data-lucide="info" class="w-3 h-3 inline mr-1 text-amber-400"></i>
+                                Hold <kbd class="px-1.5 py-0.5 bg-slate-800 text-slate-300 rounded text-[9px] border border-white/10">Ctrl</kbd> or <kbd class="px-1.5 py-0.5 bg-slate-800 text-slate-300 rounded text-[9px] border border-white/10">Cmd</kbd> to upload multiple PDF slides, manuals, or images at once.
+                            </p>
+
+                            <!-- Dynamic Selected Files Preview Container -->
+                            <div id="file-preview-container" class="hidden space-y-2 pt-2 border-t border-white/10">
+                                <span class="text-[10px] uppercase font-bold text-slate-400 tracking-wider block">Selected File Attachments:</span>
+                                <div id="file-list-preview" class="space-y-1.5 max-h-36 overflow-y-auto no-scrollbar">
+                                    <!-- Populated via JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Upload Progress Bar -->
+                        <div id="upload-progress-wrapper" class="hidden space-y-1.5">
+                            <div class="flex justify-between text-[11px] font-mono text-slate-300">
+                                <span>Uploading assets to Firebase Storage...</span>
+                                <span id="upload-percentage">0%</span>
+                            </div>
+                            <div class="w-full bg-slate-950 rounded-full h-2 overflow-hidden border border-white/10">
+                                <div id="upload-progress-bar" class="bg-gradient-to-r from-rose-500 via-amber-500 to-emerald-500 h-full w-0 transition-all duration-200"></div>
+                            </div>
+                        </div>
+
+                        <!-- Submit Button -->
+                        <button type="submit" id="submit-post-btn" class="w-full py-3.5 bg-gradient-to-r from-rose-500 via-amber-500 to-rose-600 hover:opacity-95 text-white font-bold text-xs rounded-xl shadow-lg shadow-rose-500/25 transition duration-300 flex items-center justify-center gap-2">
+                            <i data-lucide="send" class="w-4 h-4"></i>
+                            <span>Publish Academic Entry</span>
+                        </button>
+
+                    </form>
+
+                </div>
+
+            </div>
+
+
+            <!-- RIGHT COLUMN: MANAGED LIVE POSTS STREAM (5 Cols) -->
+            <div class="lg:col-span-5 space-y-6">
+
+                <!-- Stream Header Card -->
+                <div class="bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 space-y-2">
+                    <div class="flex items-center justify-between">
+                        <h3 class="text-sm font-bold text-white flex items-center gap-2">
+                            <i data-lucide="list-checks" class="w-4 h-4 text-emerald-400"></i>
+                            Published Records Stream
+                        </h3>
+                        <span class="text-[10px] font-mono font-bold text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2 py-0.5 rounded-md">Live Sync</span>
+                    </div>
+                    <p class="text-xs text-slate-400">View and manage entries for the currently selected category.</p>
+                </div>
+
+                <!-- Live Stream Scrollable Container -->
+                <div id="admin-posts-list" class="space-y-3 max-h-[680px] overflow-y-auto no-scrollbar pr-1">
+
+                    <!-- Loading Placeholder -->
+                    <div class="text-center py-10 space-y-2 text-slate-500 bg-slate-900/20 rounded-2xl border border-white/5">
+                        <i data-lucide="loader-2" class="w-5 h-5 animate-spin mx-auto text-rose-400"></i>
+                        <p class="text-xs font-mono">Fetching published records...</p>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- 3. PREVIEW MODAL                           -->
+    <!-- ========================================== -->
+    <div id="file-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 hidden">
+        <div class="bg-slate-900/90 border border-white/10 w-full max-w-4xl rounded-3xl shadow-2xl flex flex-col h-[88vh] overflow-hidden">
+            
+            <div class="p-4 bg-slate-950/80 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center space-x-2 truncate">
+                    <i data-lucide="file-text" class="w-4 h-4 text-amber-400 shrink-0"></i>
+                    <h3 id="modal-title" class="text-xs sm:text-sm font-bold text-slate-200 truncate">Document Preview</h3>
+                </div>
+                
+                <div class="flex items-center space-x-2 shrink-0">
+                    <a id="modal-download-btn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-xl border border-white/10 transition font-medium">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">Open Original</span>
+                    </a>
+                    
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800/80 transition">
+                        <i data-lucide="x" class="w-5 h-5 pointer-events-none"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-1 bg-slate-950/90 relative flex items-center justify-center p-2 overflow-hidden">
+                <iframe id="modal-iframe" class="w-full h-full rounded-2xl border-0 bg-slate-900" style="display: none;"></iframe>
+                <img id="modal-img" src="" alt="Preview" class="max-w-full max-h-full object-contain rounded-2xl" style="display: none;" />
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER                                  -->
+    <!-- ========================================== -->
+    <footer class="mt-12 border-t border-white/10 bg-slate-950/40 backdrop-blur-xl py-6 text-center text-slate-500 text-xs">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Mechanical Engineering Section Hub, RUET.</p>
+            <p class="font-mono text-[11px] text-amber-400/80">ME '25 Portal System</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- Main Firebase & App Module -->
+    <script type="module" src="app.js"></script>
+
+</body>
+</html>

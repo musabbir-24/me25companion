@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lab Reports & Manuals | ME Portal '25</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070a11',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS for Hiding Scrollbars -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<script type="module" src="app.js"></script>
+<body class="bg-brandDark text-slate-100 min-h-screen font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200 relative overflow-x-hidden">
+
+    <!-- AMBIENT GLASS GLOW BACKGROUND ORBS -->
+    <div class="fixed top-0 left-1/4 w-96 h-96 bg-amber-500/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="fixed top-1/2 right-10 w-96 h-96 bg-purple-600/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 left-10 w-80 h-80 bg-sky-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+
+
+    <!-- ========================================== -->
+    <!-- 1. GLASS NAVIGATION BAR                   -->
+    <!-- ========================================== -->
+<!-- Single Navbar Anchor -->
+<div id="navbar-container"></div>
+
+<!-- Load Navbar Script -->
+<script src="navbar.js"></script>
+
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN CONTAINER                          -->
+    <!-- ========================================== -->
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- A. HERO BANNER -->
+        <section class="relative overflow-hidden rounded-3xl bg-slate-900/40 backdrop-blur-2xl p-6 sm:p-10 border border-white/10 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-3 max-w-2xl">
+                <div class="inline-flex items-center space-x-2 text-[11px] font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                    <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i>
+                    <span>Syllabus & Lab Guidelines</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Lab Manuals, Data Sheets & Sample Reports</h2>
+                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    Access course-wise lab experiment sheets, download official RUET front page templates, and check upcoming report submission deadlines.
+                </p>
+            </div>
+
+            <!-- Quick Cover Page Download CTA -->
+            <a href="#" download class="w-full md:w-auto shrink-0 bg-gradient-to-r from-amber-500 to-amber-600 hover:from-amber-400 hover:to-amber-500 text-slate-950 font-extrabold text-xs px-5 py-3.5 rounded-2xl transition shadow-xl shadow-amber-500/20 flex items-center justify-center gap-2 group">
+                <i data-lucide="download-cloud" class="w-4 h-4 group-hover:-translate-y-0.5 transition"></i>
+                <span>Download Front Page Cover (DOCX)</span>
+            </a>
+        </section>
+
+
+        <!-- B. SEARCH & COURSE FILTER TOOLBAR -->
+        <section class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/30 backdrop-blur-xl p-4 rounded-2xl border border-white/10">
+            <!-- Search Bar -->
+            <div class="relative w-full sm:w-80">
+                <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="lab-search" placeholder="Search lab name or course code..." class="w-full bg-slate-950/80 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-amber-500/50 transition" />
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="flex items-center space-x-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar text-xs font-semibold">
+                <button class="px-3 py-1.5 rounded-xl bg-amber-500 text-slate-950 font-bold whitespace-nowrap">All Labs</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">Mechanical</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">EEE / CSE</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">Workshop Practice</button>
+            </div>
+        </section>
+
+
+        <!-- C. LAB COURSES GRID -->
+        <section id="lab-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full p-12 bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 text-center text-slate-500 text-xs animate-pulse">
+                    Loading lab reports...
+                </div>
+        </section>
+
+
+        <!-- D. SUBMISSION GUIDELINES & STANDARD COVER RULES -->
+        <section class="p-6 sm:p-8 bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl space-y-4">
+            <div class="flex items-center space-x-3">
+                <div class="p-2.5 bg-amber-500/10 text-amber-400 rounded-2xl border border-amber-500/20">
+                    <i data-lucide="check-circle-2" class="w-5 h-5"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Standard RUET Lab Report Submission Rules</h3>
+                    <p class="text-xs text-slate-400">Follow these instructions carefully to avoid mark deductions.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs text-slate-300 pt-2">
+                <div class="p-4 bg-slate-950/60 rounded-2xl border border-white/5 space-y-1">
+                    <span class="font-bold text-amber-400 block mb-1">1. Front Page & Margin</span>
+                    <p class="text-slate-400 leading-relaxed">Use official RUET ME cover layout. Ensure 1-inch margins on all sides with offset left for binding.</p>
+                </div>
+                <div class="p-4 bg-slate-950/60 rounded-2xl border border-white/5 space-y-1">
+                    <span class="font-bold text-amber-400 block mb-1">2. Data & Calculations</span>
+                    <p class="text-slate-400 leading-relaxed">Include raw data tables signed by the course teacher during the experiment period.</p>
+                </div>
+                <div class="p-4 bg-slate-950/60 rounded-2xl border border-white/5 space-y-1">
+                    <span class="font-bold text-amber-400 block mb-1">3. Discussions & Conclusion</span>
+                    <p class="text-slate-400 leading-relaxed">Discussion section must be strictly handwritten with individual observations and error analysis.</p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- 3. FOOTER                                  -->
+    <!-- ========================================== -->
+    <footer class="mt-16 border-t border-white/10 bg-slate-950/40 backdrop-blur-xl py-6 text-center text-slate-500 text-xs">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Department of Mechanical Engineering, RUET.</p>
+            <p class="font-mono text-[11px] text-amber-400/80">ME '25 Academic Portal</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+</body>
+</html>

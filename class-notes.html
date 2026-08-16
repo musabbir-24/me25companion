@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Class Notes & Lecture Slides | ME Portal '25</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        brandDark: '#070a11',
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Lucide Icons CDN -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+
+    <!-- Custom CSS for Hiding Scrollbars -->
+    <style>
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-brandDark text-slate-100 min-h-screen font-sans antialiased selection:bg-purple-500/30 selection:text-purple-200 relative overflow-x-hidden">
+
+    <!-- AMBIENT GLASS GLOW BACKGROUND ORBS -->
+    <div class="fixed top-0 right-1/4 w-96 h-96 bg-purple-600/10 rounded-full blur-[140px] pointer-events-none -z-10"></div>
+    <div class="fixed top-1/2 left-10 w-96 h-96 bg-amber-500/10 rounded-full blur-[120px] pointer-events-none -z-10"></div>
+    <div class="fixed bottom-10 right-10 w-96 h-96 bg-sky-500/10 rounded-full blur-[130px] pointer-events-none -z-10"></div>
+
+
+    <!-- ========================================== -->
+    <!-- 1. GLASS NAVIGATION BAR                   -->
+    <!-- ========================================== -->
+<!-- Single Navbar Anchor -->
+<div id="navbar-container"></div>
+
+<!-- Load Navbar Script -->
+<script src="navbar.js"></script>
+
+
+    <!-- ========================================== -->
+    <!-- 2. MAIN CONTAINER                          -->
+    <!-- ========================================== -->
+    <main class="max-w-6xl mx-auto px-4 py-8 space-y-8">
+
+        <!-- A. HERO BANNER -->
+        <section class="relative overflow-hidden rounded-3xl bg-slate-900/40 backdrop-blur-2xl p-6 sm:p-10 border border-white/10 shadow-2xl flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-3 max-w-2xl">
+                <div class="inline-flex items-center space-x-2 text-[11px] font-bold text-purple-400 bg-purple-500/10 border border-purple-500/20 px-3 py-1 rounded-full uppercase tracking-wider backdrop-blur-md">
+                    <i data-lucide="notebook-pen" class="w-3.5 h-3.5"></i>
+                    <span>Academic Archive</span>
+                </div>
+                <h2 class="text-2xl sm:text-3xl font-black text-white tracking-tight">Lecture Notes, PDF Scans & Presentation Slides</h2>
+                <p class="text-xs sm:text-sm text-slate-400 leading-relaxed">
+                    Access handwritten class notes, official lecture decks, and chapter summaries compiled by section toppers and course instructors.
+                </p>
+            </div>
+
+            <!-- Drive Folder Quick Link -->
+            <a href="#" target="_blank" rel="noopener noreferrer" class="w-full md:w-auto shrink-0 bg-gradient-to-r from-purple-500 to-indigo-600 hover:from-purple-400 hover:to-indigo-500 text-white font-extrabold text-xs px-5 py-3.5 rounded-2xl transition shadow-xl shadow-purple-500/20 flex items-center justify-center gap-2 group">
+                <i data-lucide="folder-git-2" class="w-4 h-4 group-hover:scale-110 transition"></i>
+                <span>Open Google Drive Archive</span>
+            </a>
+        </section>
+
+
+        <!-- B. SEARCH & SUBJECT FILTER TOOLBAR -->
+        <section class="flex flex-col sm:flex-row items-center justify-between gap-4 bg-slate-900/30 backdrop-blur-xl p-4 rounded-2xl border border-white/10">
+            <!-- Search Bar -->
+            <div class="relative w-full sm:w-80">
+                <i data-lucide="search" class="w-4 h-4 text-slate-500 absolute left-3.5 top-1/2 -translate-y-1/2"></i>
+                <input type="text" id="notes-search" placeholder="Search topic, chapter, or course..." class="w-full bg-slate-950/80 border border-white/10 rounded-xl pl-10 pr-4 py-2 text-xs text-slate-100 placeholder-slate-500 focus:outline-none focus:border-purple-500/50 transition" />
+            </div>
+
+            <!-- Filter Chips -->
+            <div class="flex items-center space-x-2 overflow-x-auto w-full sm:w-auto pb-1 sm:pb-0 no-scrollbar text-xs font-semibold">
+                <button class="px-3 py-1.5 rounded-xl bg-purple-500 text-white font-bold whitespace-nowrap">All Subjects</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">Core ME</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">Mathematics</button>
+                <button class="px-3 py-1.5 rounded-xl bg-slate-950/80 hover:bg-white/10 text-slate-300 border border-white/10 whitespace-nowrap transition">Physics / Chemistry</button>
+            </div>
+        </section>
+
+
+        <!-- C. NOTES GRID -->
+        <section id="notes-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <div class="col-span-full p-12 bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 text-center text-slate-500 text-xs animate-pulse">
+                Loading class notes...
+            </div>
+        </section>
+
+
+        <!-- D. CONTRIBUTION CALLOUT -->
+        <section class="p-6 sm:p-8 bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 shadow-2xl flex flex-col sm:flex-row items-center justify-between gap-6">
+            <div class="flex items-center space-x-4">
+                <div class="p-3 bg-purple-500/10 text-purple-400 rounded-2xl border border-purple-500/20 shrink-0">
+                    <i data-lucide="file-up" class="w-6 h-6"></i>
+                </div>
+                <div>
+                    <h3 class="text-base font-bold text-white">Have neat handwritten notes or missing slides?</h3>
+                    <p class="text-xs text-slate-400 mt-0.5">Share your clean lecture scans with the CR team so we can publish them for the section.</p>
+                </div>
+            </div>
+
+            <a href="admin-dashboard.html" class="shrink-0 bg-slate-800 hover:bg-slate-700 text-slate-200 border border-white/10 text-xs font-bold px-4 py-2.5 rounded-xl transition">
+                Submit via CR Portal
+            </a>
+        </section>
+
+    </main>
+
+
+    <!-- ========================================== -->
+    <!-- 3. PREVIEW MODAL                           -->
+    <!-- ========================================== -->
+    <div id="file-modal" class="fixed inset-0 z-50 bg-slate-950/80 backdrop-blur-2xl flex items-center justify-center p-3 sm:p-6 hidden">
+        <div class="bg-slate-900/90 border border-white/10 w-full max-w-4xl rounded-3xl shadow-2xl flex flex-col h-[88vh] overflow-hidden">
+            
+            <div class="p-4 bg-slate-950/80 border-b border-white/10 flex items-center justify-between">
+                <div class="flex items-center space-x-2 truncate">
+                    <i data-lucide="file-text" class="w-4 h-4 text-purple-400 shrink-0"></i>
+                    <h3 id="modal-title" class="text-xs sm:text-sm font-bold text-slate-200 truncate">Document Preview</h3>
+                </div>
+                
+                <div class="flex items-center space-x-2 shrink-0">
+                    <a id="modal-download-btn" href="#" target="_blank" rel="noopener noreferrer" class="inline-flex items-center space-x-1.5 text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 px-3 py-1.5 rounded-xl border border-white/10 transition font-medium">
+                        <i data-lucide="external-link" class="w-3.5 h-3.5"></i>
+                        <span class="hidden sm:inline">Open Original</span>
+                    </a>
+                    
+                    <button id="close-modal-btn" class="text-slate-400 hover:text-white p-1.5 rounded-xl hover:bg-slate-800/80 transition">
+                        <i data-lucide="x" class="w-5 h-5 pointer-events-none"></i>
+                    </button>
+                </div>
+            </div>
+
+            <div class="flex-1 bg-slate-950/90 relative flex items-center justify-center p-2 overflow-hidden">
+                <iframe id="modal-iframe" class="w-full h-full rounded-2xl border-0 bg-slate-900" style="display: none;"></iframe>
+                <img id="modal-img" src="" alt="Preview" class="max-w-full max-h-full object-contain rounded-2xl" style="display: none;" />
+            </div>
+
+        </div>
+    </div>
+
+
+    <!-- ========================================== -->
+    <!-- 4. FOOTER                                  -->
+    <!-- ========================================== -->
+    <footer class="mt-16 border-t border-white/10 bg-slate-950/40 backdrop-blur-xl py-6 text-center text-slate-500 text-xs">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+            <p>© Department of Mechanical Engineering, RUET.</p>
+            <p class="font-mono text-[11px] text-purple-400/80">ME '25 Class Notes Hub</p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script>
+        lucide.createIcons();
+    </script>
+
+    <!-- Main Firebase & UI Logic -->
+    <script type="module" src="app.js"></script>
+
+</body>
+</html>
