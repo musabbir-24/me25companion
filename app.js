@@ -74,6 +74,7 @@ document.addEventListener('DOMContentLoaded', () => {
     if (document.getElementById('gallery-container')) initGalleryPage();
 
     initHomePage();
+    initPushNotifications(); // Initializing push notification setup
 
     if (document.getElementById('admin-post-form')) {
         initAdminDashboard();
@@ -610,4 +611,70 @@ function closeModalPreview() {
     if (modal) modal.classList.add('hidden');
     if (iframe) iframe.src = '';
     if (img) img.src = '';
+}
+
+// ==========================================================================
+// 9. PUSH NOTIFICATION SUBSCRIPTION
+// ==========================================================================
+
+function urlB64ToUint8Array(base64String) {
+    const padding = '='.repeat((4 - base64String.length % 4) % 4);
+    const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+    const rawData = window.atob(base64);
+    const outputArray = new Uint8Array(rawData.length);
+    for (let i = 0; i < rawData.length; ++i) {
+      outputArray[i] = rawData.charCodeAt(i);
+    }
+    return outputArray;
+  }
+
+function initPushNotifications() {
+    const notifyBtn = document.getElementById('notify-btn');
+
+    if (notifyBtn) {
+        notifyBtn.addEventListener('click', async () => {
+            // Replace with your actual PUBLIC VAPID KEY generated in Step 1
+            const PUBLIC_VAPID_KEY = 'YOUR_VAPID_PUBLIC_KEY_HERE'; 
+
+            if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+                alert("Push notifications are not supported by your browser.");
+                return;
+            }
+        
+            try {
+                // Ask user for permission
+                const permission = await Notification.requestPermission();
+                if (permission !== 'granted') {
+                    console.log('Permission denied');
+                    return;
+                }
+        
+                // Register Service Worker
+                const registration = await navigator.serviceWorker.register('/sw.js');
+                console.log('Service Worker registered!');
+        
+                // Subscribe User
+                const subscription = await registration.pushManager.subscribe({
+                    userVisibleOnly: true,
+                    applicationServerKey: urlB64ToUint8Array(PUBLIC_VAPID_KEY)
+                });
+        
+                console.log("User Subscription:", subscription);
+                
+                // Send subscription to Netlify Function (To be built in Step 4)
+                await fetch('/.netlify/functions/save-subscription', {
+                    method: 'POST',
+                    body: JSON.stringify(subscription),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                
+                alert("Notifications enabled successfully!");
+        
+            } catch (error) {
+                console.error('Error enabling notifications:', error);
+            }
+        });
+    }
 }
