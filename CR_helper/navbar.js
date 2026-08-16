@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: 'Gallery', href: 'gallery.html' }
     ];
 
-    // Generate links with active state highlighting
+    // Desktop Links
     const navLinksHtml = navItems.map(item => {
         const isActive = currentPage === item.href;
         const activeClasses = isActive 
@@ -24,6 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
             : 'text-slate-400 hover:text-white hover:bg-white/5';
         
         return `<a href="${item.href}" class="px-3.5 py-1.5 rounded-xl transition ${activeClasses}">${item.name}</a>`;
+    }).join('');
+
+    // Mobile Links (stacked vertically)
+    const mobileNavLinksHtml = navItems.map(item => {
+        const isActive = currentPage === item.href;
+        const activeClasses = isActive 
+            ? 'bg-rose-500/20 text-rose-300 border border-rose-500/30 font-bold' 
+            : 'text-slate-400 hover:text-white hover:bg-white/5';
+        
+        return `<a href="${item.href}" class="block px-4 py-2.5 rounded-xl text-sm transition ${activeClasses}">${item.name}</a>`;
     }).join('');
 
     // Inject Master Navigation HTML
@@ -47,17 +57,37 @@ document.addEventListener('DOMContentLoaded', () => {
                     ${navLinksHtml}
                 </nav>
 
-                <!-- Admin Button -->
-                <div class="flex items-center gap-3">
+                <!-- Actions: Admin Button + Mobile Toggle -->
+                <div class="flex items-center gap-2 sm:gap-3">
                     <a href="admin-dashboard.html" class="flex items-center gap-2 text-xs font-semibold px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-white/10 hover:border-white/20 transition group">
                         <i data-lucide="shield-check" class="w-4 h-4 text-rose-400 group-hover:rotate-12 transition"></i>
                         <span class="hidden sm:inline">CR Admin</span>
                     </a>
+
+                    <!-- Mobile Hamburger Button -->
+                    <button id="mobile-menu-btn" aria-label="Toggle Navigation" class="md:hidden p-2 rounded-xl bg-slate-900 text-slate-300 hover:text-white border border-white/10 hover:border-white/20 transition">
+                        <i data-lucide="menu" class="w-5 h-5"></i>
+                    </button>
                 </div>
 
             </div>
+
+            <!-- Mobile Navigation Drawer -->
+            <nav id="mobile-menu" class="hidden md:hidden border-t border-white/10 bg-slate-950/95 backdrop-blur-2xl px-4 py-3 space-y-1">
+                ${mobileNavLinksHtml}
+            </nav>
         </header>
     `;
+
+    // Toggle Mobile Menu Visibility
+    const menuBtn = document.getElementById('mobile-menu-btn');
+    const mobileMenu = document.getElementById('mobile-menu');
+
+    if (menuBtn && mobileMenu) {
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+        });
+    }
 
     // Re-trigger Lucide icon rendering after injection
     if (window.lucide && typeof window.lucide.createIcons === 'function') {

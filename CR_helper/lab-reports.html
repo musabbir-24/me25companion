@@ -29,6 +29,7 @@
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
     </style>
 </head>
+<script type="module" src="app.js"></script>
 <body class="bg-brandDark text-slate-100 min-h-screen font-sans antialiased selection:bg-amber-500/30 selection:text-amber-200 relative overflow-x-hidden">
 
     <!-- AMBIENT GLASS GLOW BACKGROUND ORBS -->
@@ -92,124 +93,10 @@
 
 
         <!-- C. LAB COURSES GRID -->
-        <section class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-            <!-- CARD 1: Thermodynamics Lab -->
-            <div class="bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/40 transition duration-300 space-y-5 shadow-xl group">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-mono font-bold text-amber-400 bg-amber-500/10 border border-amber-500/20 px-2.5 py-1 rounded-lg">ME 2102</span>
-                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-medium">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 4 Experiments
-                        </span>
-                    </div>
-
-                    <div>
-                        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition">Thermodynamics Sessional</h3>
-                        <p class="text-xs text-slate-400 mt-1">Calorimetry, Boiler testing, IC engine performance test, and fuel property analysis.</p>
-                    </div>
-
-                    <div class="p-3 bg-slate-950/60 rounded-xl border border-white/5 space-y-1.5 text-[11px]">
-                        <div class="flex justify-between text-slate-400">
-                            <span>Lab Location:</span>
-                            <span class="text-slate-200 font-medium">Heat Engine Lab</span>
-                        </div>
-                        <div class="flex justify-between text-slate-400">
-                            <span>Next Report Due:</span>
-                            <span class="text-amber-400 font-semibold">Exp #3 (Next Sunday)</span>
-                        </div>
-                    </div>
+        <section id="lab-container" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="col-span-full p-12 bg-slate-900/40 backdrop-blur-xl rounded-2xl border border-white/10 text-center text-slate-500 text-xs animate-pulse">
+                    Loading lab reports...
                 </div>
-
-                <!-- Action Buttons -->
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-slate-950/80 hover:bg-slate-800 text-slate-200 border border-white/10 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="book-open" class="w-3.5 h-3.5 text-sky-400"></i> Lab Manual
-                    </a>
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Sample Report
-                    </a>
-                </div>
-            </div>
-
-
-            <!-- CARD 2: Computer Programming Lab -->
-            <div class="bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/40 transition duration-300 space-y-5 shadow-xl group">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-mono font-bold text-purple-400 bg-purple-500/10 border border-purple-500/20 px-2.5 py-1 rounded-lg">ME 1202</span>
-                        <span class="text-[10px] text-emerald-400 bg-emerald-500/10 border border-emerald-500/20 px-2.5 py-0.5 rounded-full flex items-center gap-1 font-medium">
-                            <span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span> 6 Codes
-                        </span>
-                    </div>
-
-                    <div>
-                        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition">Computer Programming (C++)</h3>
-                        <p class="text-xs text-slate-400 mt-1">C++ Fundamentals, Arrays, Functions, Pointers, and Mechanical Problem Solving.</p>
-                    </div>
-
-                    <div class="p-3 bg-slate-950/60 rounded-xl border border-white/5 space-y-1.5 text-[11px]">
-                        <div class="flex justify-between text-slate-400">
-                            <span>Lab Location:</span>
-                            <span class="text-slate-200 font-medium">ME Computer Lab</span>
-                        </div>
-                        <div class="flex justify-between text-slate-400">
-                            <span>Next Report Due:</span>
-                            <span class="text-amber-400 font-semibold">Assignment 2</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-slate-950/80 hover:bg-slate-800 text-slate-200 border border-white/10 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="code" class="w-3.5 h-3.5 text-purple-400"></i> Problem Set
-                    </a>
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="file-code-2" class="w-3.5 h-3.5"></i> Solutions
-                    </a>
-                </div>
-            </div>
-
-
-            <!-- CARD 3: Machine Shop & Foundry Practice -->
-            <div class="bg-slate-900/40 backdrop-blur-2xl rounded-3xl border border-white/10 p-6 flex flex-col justify-between hover:border-amber-500/40 transition duration-300 space-y-5 shadow-xl group">
-                <div class="space-y-3">
-                    <div class="flex items-center justify-between">
-                        <span class="text-[10px] font-mono font-bold text-sky-400 bg-sky-500/10 border border-sky-500/20 px-2.5 py-1 rounded-lg">ME 1100</span>
-                        <span class="text-[10px] text-slate-400 bg-slate-800 px-2.5 py-0.5 rounded-full font-medium">
-                            Manual Ready
-                        </span>
-                    </div>
-
-                    <div>
-                        <h3 class="text-base font-bold text-white group-hover:text-amber-400 transition">Shop Practice Sessional</h3>
-                        <p class="text-xs text-slate-400 mt-1">Lathe machine operations, Fitting, Welding, and Foundry casting jobs.</p>
-                    </div>
-
-                    <div class="p-3 bg-slate-950/60 rounded-xl border border-white/5 space-y-1.5 text-[11px]">
-                        <div class="flex justify-between text-slate-400">
-                            <span>Lab Location:</span>
-                            <span class="text-slate-200 font-medium">Central Workshop</span>
-                        </div>
-                        <div class="flex justify-between text-slate-400">
-                            <span>Next Report Due:</span>
-                            <span class="text-emerald-400 font-semibold">Job Sheet #1 Submitted</span>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Action Buttons -->
-                <div class="grid grid-cols-2 gap-2 pt-2 border-t border-white/10">
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-slate-950/80 hover:bg-slate-800 text-slate-200 border border-white/10 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="wrench" class="w-3.5 h-3.5 text-amber-400"></i> Job Sheets
-                    </a>
-                    <a href="#" class="flex items-center justify-center gap-1.5 bg-amber-500/10 hover:bg-amber-500/20 text-amber-400 border border-amber-500/30 rounded-xl py-2 text-xs font-semibold transition">
-                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Report Format
-                    </a>
-                </div>
-            </div>
-
         </section>
 
 
