@@ -1,44 +1,64 @@
-// sw.js
+const CACHE_NAME = 'me25-companion-v1';
 
-// 1. Listen for incoming push messages
-self.addEventListener('push', function(event) {
-  if (!event.data) return;
-  
-  const data = event.data.json();
-  
-  const options = {
-    body: data.body,
-    icon: '/icon.png', // Replace with a path to your app logo (192x192px)
-    badge: '/badge.png', // Optional: A small monochrome icon for the Android status bar
-    data: {
-      url: data.url || '/' // The URL to open when the user taps the notification
-    }
-  };
+// Critical assets to cache on installation
+const PRECACHE_ASSETS = [
+  '/',
+  '/index.html',
+  '/manifest.json',
+  '/icons/icon-192x192.png',
+  '/icons/icon-512x512.png'
+];
 
-  // Keep the service worker alive until the notification is drawn
+// Install Event: Cache core static assets
+self.addEventListener('install', (event) => {
   event.waitUntil(
-    self.registration.showNotification(data.title, options)
+    caches.open(CACHE_NAME).then((cache) => {
+      return cache.addAll(PRECACHE_ASSETS);
+    }).then(() => self.skipWaiting())
   );
 });
 
-// 2. Listen for the user clicking the notification
-self.addEventListener('notificationclick', function(event) {
-  event.notification.close(); // Immediately dismiss the popup
-  
-  const urlToOpen = event.notification.data.url;
-
-  // Check if the site is already open. If so, focus it. If not, open a new tab.
+// Activate Event: Clean up old cache versions
+self.addEventListener('activate', (event) => {
   event.waitUntil(
-    clients.matchAll({ type: 'window' }).then(function(windowClients) {
-      for (let i = 0; i < windowClients.length; i++) {
-        const client = windowClients[i];
-        if (client.url === urlToOpen && 'focus' in client) {
-          return client.focus();
+    caches.keys().then((cacheNames) => {
+      return Promise.all(
+        cacheNames
+          .filter((name) => name !== CACHE_NAME)
+          .map((name) => caches.delete(name))
+      );
+    }).then(() => self.clients.claim())
+  );
+});
+
+// Fetch Event: Network-First with Cache Fallback
+self.addEventListener('fetch', (event) => {
+  // Only handle GET requests
+  if (event.request.method !== 'GET') return;
+
+  event.respondWith(
+    fetch(event.request)
+      .then((networkResponse) => {
+        // If valid response, clone and update cache asynchronously
+        if (networkResponse && networkResponse.status === 200) {
+          const responseToCache = networkResponse.clone();
+          caches.open(CACHE_NAME).then((cache) => {
+            cache.put(event.request, responseToCache);
+          });
         }
-      }
-      if (clients.openWindow) {
-        return clients.openWindow(urlToOpen);
-      }
-    })
+        return networkResponse;
+      })
+      .catch(() => {
+        // If network fails (offline), serve from cache
+        return caches.match(event.request).then((cachedResponse) => {
+          if (cachedResponse) {
+            return cachedResponse;
+          }
+          // If navigation fails and isn't cached, return root fallback
+          if (event.request.mode === 'navigate') {
+            return caches.match('/');
+          }
+        });
+      })
   );
 });
